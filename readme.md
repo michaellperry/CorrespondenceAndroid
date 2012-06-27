@@ -38,6 +38,7 @@ plugin. You can find instructions for getting set up here:
 http://developer.android.com/tools/sdk/eclipse-adt.html
 
 Once you have the tools, set up your workspace:
+
 1. Create an Eclipse workspace outside of the folder structure where you pulled the code.
 2. Add a new Android project to this workspace.
 3. Choose the option "based on existing source code".
