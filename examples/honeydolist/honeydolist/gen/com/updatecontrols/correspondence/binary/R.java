@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.mallardsoft.query;
+package com.updatecontrols.correspondence.binary;
 
 public final class R {
     public static final class attr {
