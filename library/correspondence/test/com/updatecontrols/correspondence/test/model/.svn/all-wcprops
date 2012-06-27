@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/535/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model
+END
+IssueData.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/527/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model/IssueData.java
+END
+IssueDate.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/527/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model/IssueDate.java
+END
+Project.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/535/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model/Project.java
+END
+ProjectName.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/527/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model/ProjectName.java
+END
+Issue.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/535/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model/Issue.java
+END
+ProjectAccess.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/527/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model/ProjectAccess.java
+END
+UserCredential.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/535/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model/UserCredential.java
+END
+IssueDelete.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/527/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model/IssueDelete.java
+END
+IssueRestore.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/527/correspondence/trunk/correspondence/test/com/updatecontrols/correspondence/test/model/IssueRestore.java
+END

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/259/correspondence/trunk/query/src/com/mallardsoft/query
+END
+Join.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/60/correspondence/trunk/query/src/com/mallardsoft/query/Join.java
+END
+Predicate.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/60/correspondence/trunk/query/src/com/mallardsoft/query/Predicate.java
+END
+QuerySpec.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/728/correspondence/trunk/query/src/com/mallardsoft/query/QuerySpec.java
+END
+Selector.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/60/correspondence/trunk/query/src/com/mallardsoft/query/Selector.java
+END
+Relation.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/60/correspondence/trunk/query/src/com/mallardsoft/query/Relation.java
+END

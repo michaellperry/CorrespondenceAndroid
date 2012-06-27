@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/645/correspondence/trunk/correspondence/src/com/updatecontrols/correspondence/memory
+END
+MemoryStorageStrategy.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/734/correspondence/trunk/correspondence/src/com/updatecontrols/correspondence/memory/MemoryStorageStrategy.java
+END
+RelationshipRecord.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/707/correspondence/trunk/correspondence/src/com/updatecontrols/correspondence/memory/RelationshipRecord.java
+END
+MemoryCommunicationStrategy.java
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/!svn/ver/645/correspondence/trunk/correspondence/src/com/updatecontrols/correspondence/memory/MemoryCommunicationStrategy.java
+END
+MessageRecord.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/707/correspondence/trunk/correspondence/src/com/updatecontrols/correspondence/memory/MessageRecord.java
+END
+IncomingTimestampRecord.java
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/!svn/ver/728/correspondence/trunk/correspondence/src/com/updatecontrols/correspondence/memory/IncomingTimestampRecord.java
+END
+PeerRecord.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/730/correspondence/trunk/correspondence/src/com/updatecontrols/correspondence/memory/PeerRecord.java
+END
+FactRecord.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/707/correspondence/trunk/correspondence/src/com/updatecontrols/correspondence/memory/FactRecord.java
+END
+OutgoingTimestampRecord.java
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/!svn/ver/728/correspondence/trunk/correspondence/src/com/updatecontrols/correspondence/memory/OutgoingTimestampRecord.java
+END
