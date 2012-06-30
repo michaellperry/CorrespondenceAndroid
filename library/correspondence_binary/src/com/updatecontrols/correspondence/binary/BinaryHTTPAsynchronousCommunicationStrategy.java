@@ -34,11 +34,15 @@ public class BinaryHTTPAsynchronousCommunicationStrategy implements
 	
 	private static final byte ProtocolVersion = 2;
 	private static final byte GetManyRequestToken = 1;
+	
+	private HTTPConfigurationProvider configurationProvider;
 
 	private Thread thread;
 	private BlockingQueue<Runnable> actionQueue = new LinkedBlockingQueue<Runnable>();
 	
-	public BinaryHTTPAsynchronousCommunicationStrategy() {
+	public BinaryHTTPAsynchronousCommunicationStrategy(HTTPConfigurationProvider configurationProvider) {
+		this.configurationProvider = configurationProvider;
+		
 		thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -64,13 +68,15 @@ public class BinaryHTTPAsynchronousCommunicationStrategy implements
 			
 			@Override
 			public void run() {
+				HTTPConfiguration configuration = configurationProvider.getConfiguration();
+				
 				BufferedReader in = null;
 				try {
 					ByteArrayOutputStream out = new ByteArrayOutputStream();
 					DataOutputStream writer = new DataOutputStream(out);
 					
 					writer.writeByte(ProtocolVersion);
-					String domain = "9FE2E1C9102D4C11AC6D7E8272001A0F";
+					String domain = configuration.getApiKey();
 					BinaryHelper.writeString(writer, domain);
 					writer.writeByte(GetManyRequestToken);
 					FactTreeSerializer serializer = new FactTreeSerializer();
@@ -88,7 +94,7 @@ public class BinaryHTTPAsynchronousCommunicationStrategy implements
 					byte[] buffer = out.toByteArray();
 					
 					HttpClient client = new DefaultHttpClient();
-					HttpPost request = new HttpPost("https://api.facetedworlds.com/correspondence_server_web/bin");
+					HttpPost request = new HttpPost(configuration.getEndpoint());
 					request.setEntity(new ByteArrayEntity(buffer));
 					HttpResponse response = client.execute(request);
 					

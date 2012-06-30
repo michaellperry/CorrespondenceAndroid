@@ -22,7 +22,9 @@ public class SynchronizationService {
 
 	public void start(Activity context) throws CorrespondenceException {
 		Community community = new Community(new MemoryStorageStrategy(), new ActivityTaskDispatcher(context))
-			.addAsynchronousCommunicationStrategy(new BinaryHTTPAsynchronousCommunicationStrategy())
+			.addAsynchronousCommunicationStrategy(new BinaryHTTPAsynchronousCommunicationStrategy(
+				new HoneyDoHTTPConfigurationProvider()
+			))
 			.addModule(new CorrespondenceModel());
       
 		identity = community.addFact(new Identity("c48b1883978543b5baa0eb89cb2516f9"));
