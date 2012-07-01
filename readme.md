@@ -66,5 +66,6 @@ The remaining projects are:
     * examples/honeydolist/honeydolist
     * correspondence, correspondence_binary, updatecontrols, query, and honeydolist_model
 
-For that last one, do not check the "is library" box. Now right-click hoenydolist and Run As
-Android Application.
+For that last one, do not check the "is library" box. In the honeydolist_model project, you will
+Need to right-click build.xml and Run As ... Ant Build. This will generate the model source code.
+Now right-click hoenydolist and Run As ... Android Application.
