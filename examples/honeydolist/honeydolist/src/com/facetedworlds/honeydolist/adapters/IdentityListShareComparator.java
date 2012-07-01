@@ -5,7 +5,7 @@ package com.facetedworlds.honeydolist.adapters;
 
 import java.util.Comparator;
 
-import com.facetedworlds.honeydolist.model.IdentityListShare;
+import facetedworlds.honeydo.model.IdentityListShare;
 
 public final class IdentityListShareComparator implements Comparator<IdentityListShare> {
 	@Override

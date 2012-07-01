@@ -1,0 +1,22 @@
+<project name="factual_compiler" default="jar">
+
+	<target name="init">
+		<property name="jar_directory" value="${basedir}/jar"/>
+	</target>
+
+	<target name="jar" depends="init">
+		<mkdir dir="${jar_directory}" />
+		<jar destfile="${jar_directory}/factual_compiler.jar">
+		    <fileset dir="${basedir}/../../compiler/rhineland_cmdline/bin">
+		        <include name="**/*.class"/>
+	        </fileset>
+		    <fileset dir="${basedir}/../../compiler/factual_parser/bin">
+		        <include name="**/*.class"/>
+	        </fileset>
+   		    <fileset dir="${basedir}/../../compiler/factual_compiler/bin">
+		        <include name="**/*.class"/>
+	        </fileset>
+		</jar>
+	</target>
+	
+</project>

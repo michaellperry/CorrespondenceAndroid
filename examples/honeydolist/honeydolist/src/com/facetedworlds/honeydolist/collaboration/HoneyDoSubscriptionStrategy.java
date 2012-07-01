@@ -2,9 +2,10 @@ package com.facetedworlds.honeydolist.collaboration;
 
 import java.util.ArrayList;
 
-import com.facetedworlds.honeydolist.model.Identity;
 import com.updatecontrols.correspondence.CorrespondenceFact;
 import com.updatecontrols.correspondence.strategy.SubscriptionStrategy;
+
+import facetedworlds.honeydo.model.Identity;
 
 public class HoneyDoSubscriptionStrategy implements SubscriptionStrategy {
 

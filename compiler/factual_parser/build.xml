@@ -1,0 +1,23 @@
+<project name="factual_parser" default="antlr">
+
+	<target name="init">
+		<property name="grammar_compile_directory" value="${basedir}/src_gen/com/facetedworlds/factual/parser"/>
+		<property name="antlr_directory" value="${basedir}/../../third_party/antlr-3.4/lib"/>
+	</target>
+
+	<target name="antlr" depends="init">
+		<mkdir dir="${grammar_compile_directory}" />
+		<java classname="org.antlr.Tool" fork="true" failonerror="true" dir="${grammar_compile_directory}">
+			<classpath>
+				<fileset dir="${antlr_directory}">
+					<include name="antlr-3.4-complete.jar"/>
+				</fileset>
+			</classpath>
+			<arg value="-verbose" />
+			<arg value="-o" />
+			<arg path="${grammar_compile_directory}" />
+			<arg path="src/com/facetedworlds/factual/parser/Factual.g" />
+		</java>
+	</target>
+	
+</project>

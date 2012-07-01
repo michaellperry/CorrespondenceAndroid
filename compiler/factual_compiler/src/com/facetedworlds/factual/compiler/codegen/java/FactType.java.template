@@ -1,0 +1,98 @@
+package ${namespace};
+
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.UUID;
+
+import com.updatecontrols.correspondence.CorrespondenceException;
+import com.updatecontrols.correspondence.CorrespondenceFact;
+import com.updatecontrols.correspondence.CorrespondenceFactFactory;
+import com.updatecontrols.correspondence.PredecessorObj;
+import com.updatecontrols.correspondence.Role;
+import com.updatecontrols.correspondence.memento.CorrespondenceFactType;
+import com.updatecontrols.correspondence.memento.FactMemento;
+import com.updatecontrols.correspondence.memento.RoleMemento;
+import com.updatecontrols.correspondence.serialize.FieldSerializer;
+
+public class ${factType} extends CorrespondenceFact {
+	
+	static class CorrespondenceFactFactoryImpl implements CorrespondenceFactFactory {
+
+		@Override
+		public CorrespondenceFact createFact(FactMemento factMemento,
+				HashMap<Class<?>, FieldSerializer> fieldSerializerByType)
+				throws CorrespondenceException {
+			try {
+				${factType} newFact = new ${factType}(factMemento);
+				
+				DataInputStream in = new DataInputStream(new ByteArrayInputStream(factMemento.getData()));
+				try {
+					// See if this object has the option "unique"
+					<#if currentFactType.factOptionSet.hasOption( com.facetedworlds.factual.parsetree.FactOption.valueOf( "UNIQUE" ) == true>
+					newFact.unique = (UUID) fieldSerializerByType.get(UUID.class).readData(in);
+					</#if>
+					
+					// Generate deserialization code for each "key" declared in the class				
+					<#list currentFactType.members as nextFactMember>
+						<#if nextFactMember.section.ordinal() == 0>
+							newFact.${idFormatter.formatIdentifier( nextFactMember.identifier )} = (${typeConvertor.})
+							newFact.unique = (UUID) fieldSerializerByType.get(UUID.class).readData(in);
+						</#if>
+					</#list>
+				}
+				finally {
+					try {
+						in.close();
+					} catch (IOException e) {
+						// Ignore
+					}
+				}
+				
+				return newFact;
+			} catch (IOException e) {
+				throw new CorrespondenceException("Failed to load ${currentFactType.factType}.", e);
+			}
+		}
+
+		@Override
+		public void writeFactData(CorrespondenceFact fact,
+				DataOutputStream out,
+				HashMap<Class<?>, FieldSerializer> fieldSerializerByType)
+				throws IllegalArgumentException, IllegalAccessException,
+				IOException {
+			${currentFactType.factType} factToWrite = (${currentFactType.factType})fact;
+			
+			@@SERIALIZATION_CODE@@
+		}
+		
+	}
+	
+	static final CorrespondenceFactType TYPE = new CorrespondenceFactType("${factFile.namespace.identifier}.${currentFactType.factType}", 1);
+	
+	@Override
+	public CorrespondenceFactType getCorrespondenceFactType() {
+		return TYPE;
+	}
+
+	public static final Role ROLE_creator = new Role(new RoleMemento(TYPE, "creator", Identity.TYPE, false));
+	
+	private UUID unique;
+	
+	private PredecessorObj<Identity> creator;
+	
+	public Cloud(Identity creator) {
+		this.unique = UUID.randomUUID();
+		this.creator = new PredecessorObj<Identity>(this, ROLE_creator, creator);
+	}
+	
+	private Cloud(FactMemento factMemento) throws CorrespondenceException {
+		this.creator = new PredecessorObj<Identity>(this, ROLE_creator, factMemento);
+	}
+	
+	public Identity getCreator() {
+		return creator.getFact();
+	}
+}

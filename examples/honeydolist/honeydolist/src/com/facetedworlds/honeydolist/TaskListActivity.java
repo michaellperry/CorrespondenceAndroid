@@ -10,8 +10,9 @@ import android.widget.TextView;
 
 import com.facetedworlds.honeydolist.adapters.IdentityListShareComparator;
 import com.facetedworlds.honeydolist.collaboration.SynchronizationService;
-import com.facetedworlds.honeydolist.model.IdentityListShare;
-import com.facetedworlds.honeydolist.model.List__name;
+
+import facetedworlds.honeydo.model.IdentityListShare;
+import facetedworlds.honeydo.model.List__name;
 
 public class TaskListActivity extends Activity {
 

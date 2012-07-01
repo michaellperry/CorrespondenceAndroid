@@ -3,12 +3,13 @@ package com.facetedworlds.honeydolist.collaboration;
 import android.app.Activity;
 
 import com.facetedworlds.honeydolist.ActivityTaskDispatcher;
-import com.facetedworlds.honeydolist.model.CorrespondenceModel;
-import com.facetedworlds.honeydolist.model.Identity;
 import com.updatecontrols.correspondence.Community;
 import com.updatecontrols.correspondence.CorrespondenceException;
 import com.updatecontrols.correspondence.binary.BinaryHTTPAsynchronousCommunicationStrategy;
 import com.updatecontrols.correspondence.memory.MemoryStorageStrategy;
+
+import facetedworlds.honeydo.model.CorrespondenceModel;
+import facetedworlds.honeydo.model.Identity;
 
 public class SynchronizationService {
 	

@@ -1,0 +1,269 @@
+namespace FacetedWorlds.HoneyDo.Model;
+
+fact Domain {
+key:
+
+query:
+	IdentityListShare* unpatchedShares {
+		IdentityListShare s : s.domain = this
+			where not s.isPatched
+	}
+}
+
+fact Identity {
+key:
+    string anonymousId;
+
+query:
+	Identity__name* nameCandidates {
+		Identity__name name : name.identity = this
+			where name.isCurrent
+	}
+
+	IdentityListShare* activeShares {
+		IdentityListShare s : s.identity = this
+			where s.isActive
+	}
+
+	List* sharedLists {
+		IdentityListShare s : s.identity = this
+			where s.isActive
+		List l : s.list = l
+	}
+
+	ListContents* sharedListContents {
+		IdentityListShare s : s.identity = this
+			where s.isActive
+		ListContents c : s.list = c.list
+	}
+
+	Task* openTasks {
+		IdentityListShare s : s.identity = this
+			where s.isActive
+		Task t : s.list = t.listContents.list
+			where not t.isComplete
+	}
+
+	PowerUser* powerUserCandidates {
+		PowerUser p : p.identity = this
+	}
+
+	List* listsNeedingContents {
+		IdentityListShare s : s.identity = this
+			where s.isActive
+		List l : s.list = l
+			where not l.hasListContents
+	}
+}
+
+fact Identity__name {
+key:
+	publish Domain domain;
+	publish Identity identity;
+	string value;
+	Identity__name* prior;
+
+query:
+	bool isCurrent {
+		not exists Identity__name next : next.prior = this
+	}
+}
+
+fact PowerUser {
+key:
+	publish Identity identity;
+}
+
+fact Email {
+key:
+	string address;
+}
+
+fact EmailIdentityGrant {
+key:
+	unique;
+	publish Domain domain;
+	Email email;
+	Identity identity;
+}
+
+fact EmailIdentityRevoke {
+key:
+	EmailIdentityGrant grant;
+}
+
+fact IdentityListShare {
+key:
+	unique;
+	publish Domain domain
+		//where this.isActive
+		;
+	publish Identity identity
+		//where this.isActive
+		;
+	List list;
+
+mutable:
+	int ordinal;
+
+query:
+	bool isActive {
+		not exists IdentityListRevoke r : r.share = this
+	}
+
+	bool isPatched {
+		exists IdentityListSharePatch p : p.equivalentShares = this
+	}
+}
+
+fact IdentityListSharePatch {
+key:
+	IdentityListShare* equivalentShares;
+}
+
+fact IdentityListRevoke {
+key:
+	IdentityListShare share;
+}
+
+fact Avatar {
+key:
+	string name;
+}
+
+fact List {
+key:
+	string identifier;
+
+query:
+	List__name* nameCandidates {
+		List__name n : n.list = this
+			where n.isCurrent
+	}
+
+	List__avatar* avatarCandidates {
+		List__avatar a : a.list = this
+			where a.isCurrent
+	}
+
+	Task* tasks {
+		Task t : t.listContents.list = this
+			where not t.isComplete
+	}
+
+	bool hasListContents {
+		exists ListContents c : c.list = this
+	}
+}
+
+fact List__name {
+key:
+	publish Domain domain;
+	publish List list;
+	List__name* prior;
+	string value;
+
+query:
+	bool isCurrent {
+		not exists List__name next : next.prior = this
+	}
+}
+
+fact List__avatar {
+key:
+	publish Domain domain;
+	publish List list;
+	List__avatar* prior;
+	Avatar value;
+
+query:
+	bool isCurrent {
+		not exists List__avatar next : next.prior = this
+	}
+}
+
+fact ListContents {
+key:
+	List list;
+}
+
+fact Task {
+key:
+	unique;
+	publish Domain domain
+		//where not this.isComplete
+		;
+	publish ListContents listContents
+		//where not this.isComplete
+		;
+	time created;
+
+query:
+	TaskComplete* complete {
+		TaskComplete c : c.task = this
+			where not c.isUndone
+	}
+
+	bool isComplete {
+		exists TaskComplete c : c.task = this
+			where not c.isUndone
+	}
+
+	Task__text* textCandidates {
+		Task__text c : c.task = this
+			where c.isCurrent
+	}
+
+	Task__context* contextCandidates {
+		Task__context c : c.task = this
+			where c.isCurrent
+	}
+}
+
+fact Task__text {
+key:
+	publish Domain? domain;
+	publish Task task;
+	Task__text* prior;
+	string value;
+
+query:
+	bool isCurrent {
+		not exists Task__text next : next.prior = this
+	}
+}
+
+fact Task__context {
+key:
+	publish Domain? domain;
+	publish Task task;
+	Task__context* prior;
+	Context value;
+
+query:
+	bool isCurrent {
+		not exists Task__context next : next.prior = this
+	}
+}
+
+fact Context {
+key:
+	string name;
+}
+
+fact TaskComplete {
+key:
+	unique;
+	publish Domain? domain;
+	publish Task task;
+
+query:
+	bool isUndone {
+		exists TaskCompleteUndo u : u.taskComplete = this
+	}
+}
+
+fact TaskCompleteUndo {
+key:
+	TaskComplete taskComplete;
+}

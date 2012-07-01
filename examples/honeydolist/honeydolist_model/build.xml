@@ -1,0 +1,27 @@
+<project name="honeydo_model" default="factual">
+
+	<path id="factual.libs">
+		<fileset dir="${basedir}/../../../third_party/antlr-3.4/lib">
+			<include name="antlr-3.4-complete.jar" />
+		</fileset>
+		<fileset dir="${basedir}/../../../compiler/factual_compiler/jar">
+			<include name="factual_compiler.jar" />
+		</fileset>
+	</path>
+	
+	<target name="factual">
+		<java
+			classname="com.facetedworlds.factual.compiler.FactualCompilerMain"
+			classpathref="factual.libs"
+			fork="true"
+			failonerror="true">
+			<arg value="-java"/>
+			<arg value="-jao"/>
+			<arg value="${basedir}/src_gen"/>
+			<arg value="-facts"/>
+			<arg value="${basedir}/honeydo.fman"/>
+		</java>
+	</target>
+
+</project>
+	

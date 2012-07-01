@@ -7,12 +7,13 @@ import android.app.Activity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
-import com.facetedworlds.honeydolist.model.Identity;
-import com.facetedworlds.honeydolist.model.IdentityListShare;
-import com.facetedworlds.honeydolist.model.List__name;
 import com.updatecontrols.Dependent;
 import com.updatecontrols.InvalidatedListener;
 import com.updatecontrols.UpdateMethod;
+
+import facetedworlds.honeydo.model.Identity;
+import facetedworlds.honeydo.model.IdentityListShare;
+import facetedworlds.honeydo.model.List__name;
 
 public class FamilyListAdapter extends ArrayAdapter<String> {
 	
