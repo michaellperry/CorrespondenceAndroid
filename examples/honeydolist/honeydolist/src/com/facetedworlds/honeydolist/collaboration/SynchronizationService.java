@@ -28,7 +28,7 @@ public class SynchronizationService {
 			))
 			.addModule(new CorrespondenceModel());
       
-		identity = community.addFact(new Identity("c48b1883978543b5baa0eb89cb2516f9"));
+		identity = community.addFact(new Identity("547260202db74f018050e01a6e384112"));
 		community.subscribe(new HoneyDoSubscriptionStrategy(identity));
 		
 		community.beginReceiving();
