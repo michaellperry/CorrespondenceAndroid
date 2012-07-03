@@ -6,9 +6,14 @@ import java.util.Collections;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.facetedworlds.honeydolist.adapters.IdentityListShareComparator;
+import com.facetedworlds.honeydolist.adapters.TaskListAdapter;
 import com.facetedworlds.honeydolist.collaboration.SynchronizationService;
 
 import facetedworlds.honeydo.model.IdentityListShare;
@@ -39,10 +44,25 @@ public class TaskListActivity extends Activity {
 					break;
 				}
 				title.setText(name);
+		        
+		        View taskListView = findViewById(R.id.taskList);
+				ListView taskList = (ListView)taskListView;
+				taskList.setAdapter(new TaskListAdapter(share.getList(), this, R.layout.task_summary));
+				taskList.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+						onSelectTask(position);
+					}
+				});
 			}
 		} catch (Throwable t) {
 			Log.e("TaskListActivity", t.getMessage(), t);
 		}
+	}
+
+	private void onSelectTask(int position) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

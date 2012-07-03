@@ -21,7 +21,7 @@ public abstract class CorrespondenceFact {
 	public CorrespondenceFact() {
 	}
 
-	protected Community getCommunity() {
+	public Community getCommunity() {
 		return community;
 	}
 	

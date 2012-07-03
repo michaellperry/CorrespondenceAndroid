@@ -14,7 +14,7 @@
     android:paddingLeft="4dp"
     android:gravity="center_vertical"/>
 <ListView
-	android:id="@+id/familyList"
+	android:id="@+id/taskList"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	/>
