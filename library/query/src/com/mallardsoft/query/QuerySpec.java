@@ -1,7 +1,9 @@
 package com.mallardsoft.query;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class QuerySpec<ROW> {
 
@@ -93,6 +95,54 @@ public class QuerySpec<ROW> {
 						while (iterator.hasNext()) {
 							ROW candidate = iterator.next();
 							if (predicate.where(candidate)) {
+								hasNext = true;
+								return candidate;
+							}
+						}
+						return null;
+					}
+
+					public boolean hasNext() {
+						return hasNext;
+					}
+
+					public ROW next() {
+						// If we've exhausted the collection, throw.
+						if (!hasNext)
+							throw new NoSuchElementException();
+						
+						// Return the next row and advance.
+						ROW retVal = next;
+						next = calculateNext();
+						return retVal;
+					}
+
+					public void remove() {
+					}
+				};
+			}
+		});
+	}
+	
+	public QuerySpec<ROW> distinct() {
+				
+		return new QuerySpec<ROW>(new Iterable<ROW>() {
+			@Override
+			public Iterator<ROW> iterator() {
+				return new Iterator<ROW>() {
+					
+					private Iterator<ROW> iterator = iterable.iterator();
+					private boolean hasNext = false;
+					private Set<ROW> rows = new HashSet<ROW>(); 
+					private ROW next = calculateNext();
+					
+					private ROW calculateNext() {
+						// Search for the next matching row.
+						hasNext = false;
+						while (iterator.hasNext()) {
+							ROW candidate = iterator.next();
+							if (!rows.contains(candidate)) {
+								rows.add(candidate);
 								hasNext = true;
 								return candidate;
 							}
