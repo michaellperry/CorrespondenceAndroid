@@ -11,6 +11,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.UUID;
 
+import android.util.Log;
+
 import com.mallardsoft.query.Predicate;
 import com.mallardsoft.query.QuerySpec;
 import com.updatecontrols.correspondence.memento.CorrespondenceFactType;
@@ -29,6 +31,7 @@ import com.updatecontrols.correspondence.query.Join;
 import com.updatecontrols.correspondence.query.QueryDefinition;
 import com.updatecontrols.correspondence.query.QueryInvalidator;
 import com.updatecontrols.correspondence.serialize.FieldSerializer;
+import com.updatecontrols.correspondence.serialize.FieldSerializerByte;
 import com.updatecontrols.correspondence.serialize.FieldSerializerByteArray;
 import com.updatecontrols.correspondence.serialize.FieldSerializerDate;
 import com.updatecontrols.correspondence.serialize.FieldSerializerInt;
@@ -60,6 +63,8 @@ public class Model {
 		this.storageStrategy = storageStrategy;
 		
 		// Add the default serializers.
+		fieldSerializerByType.put(Byte.class, new FieldSerializerByte());
+		fieldSerializerByType.put(byte.class, new FieldSerializerByte());
 		fieldSerializerByType.put(Integer.class, new FieldSerializerInt());
 		fieldSerializerByType.put(int.class, new FieldSerializerInt());
 		fieldSerializerByType.put(UUID.class, new FieldSerializerUUID());
@@ -255,6 +260,11 @@ public class Model {
 			Hashtable<FactID, FactID> localIdByRemoteId) {
         if (identifiedFact instanceof IdentifiedFactMemento) {
             IdentifiedFactMemento identifiedFactMemento = (IdentifiedFactMemento)identifiedFact;
+            
+            Log.d("Correspondence", "Received " +
+            		identifiedFactMemento.getMemento().getType().getName() + "." +
+            		identifiedFactMemento.getMemento().getType().getVersion());
+            
             FactMemento translatedMemento = new FactMemento(identifiedFactMemento.getMemento().getType());
             translatedMemento.setData(identifiedFactMemento.getMemento().getData());
             for (PredecessorMemento remote : identifiedFactMemento.getMemento().getPredecessors()) {
