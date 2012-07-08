@@ -197,6 +197,7 @@ key:
 		//where not this.isComplete
 		;
 	time created;
+	byte filler;
 
 query:
 	TaskComplete* complete {
