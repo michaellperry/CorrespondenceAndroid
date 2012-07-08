@@ -854,6 +854,8 @@ public class JavaCodeGenerator extends CodeGeneratorAbstractBase implements Code
 					}
 				}
 			}
+			c.print("if (in.read() != -1)");
+			c.print( String.format("  throw new CorrespondenceException(\"Failed to load fact of type %s. Unexpected data.\");", factTypeName) );
 			c.unindent();
 			c.print( "}" );
 			c.print( "finally {" );
