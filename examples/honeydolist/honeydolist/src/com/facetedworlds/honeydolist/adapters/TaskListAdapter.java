@@ -2,8 +2,12 @@ package com.facetedworlds.honeydolist.adapters;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
+import com.facetedworlds.honeydolist.R;
 import com.updatecontrols.Dependent;
 import com.updatecontrols.InvalidatedListener;
 import com.updatecontrols.UpdateMethod;
@@ -12,7 +16,7 @@ import facetedworlds.honeydo.model.List;
 import facetedworlds.honeydo.model.Task;
 import facetedworlds.honeydo.model.Task__text;
 
-public class TaskListAdapter extends ArrayAdapter<String> {
+public class TaskListAdapter extends ArrayAdapter<Task> {
 
 	private List list;
 	
@@ -48,15 +52,28 @@ public class TaskListAdapter extends ArrayAdapter<String> {
 		
 		this.clear();
 		for (Task task : list.tasks()) {
-			String text = "";
-			Log.i("TaskListAdapter", "updateListSummaries - add task");
-			for (Task__text candidate : task.textCandidates()) {
-				text = candidate.getValue();
-				Log.i("TaskListAdapter", "updateListSummaries - add task " + text);
-				break;
-			}
-			this.add(text);
+			this.add(task);
 		}
 	}
 
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		Task task = this.getItem(position);
+		View taskSummaryView = parent.findViewById(R.layout.task_summary);
+		TextView taskTextView = (TextView)taskSummaryView.findViewById(R.id.task_text);
+		taskTextView.setText(getTaskText(task));
+		return taskSummaryView;
+	}
+
+	private String getTaskText(Task task) {
+		String text = "";
+		Log.i("TaskListAdapter", "updateListSummaries - add task");
+		for (Task__text candidate : task.textCandidates()) {
+			text = candidate.getValue();
+			Log.i("TaskListAdapter", "updateListSummaries - add task " + text);
+			break;
+		}
+		return text;
+	}
+	
 }
