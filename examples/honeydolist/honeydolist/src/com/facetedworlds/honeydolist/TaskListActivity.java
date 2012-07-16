@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.facetedworlds.honeydolist.adapters.IdentityListShareComparator;
 import com.facetedworlds.honeydolist.adapters.TaskListAdapter;
 import com.facetedworlds.honeydolist.collaboration.SynchronizationService;
+import com.mallardsoft.query.QuerySpec;
+import com.mallardsoft.query.Selector;
 import com.updatecontrols.Dependent;
 import com.updatecontrols.UpdateMethod;
 import com.updatecontrols.android.Update;
@@ -67,12 +69,13 @@ public class TaskListActivity extends Activity {
 	}
 
 	private String getListName() {
-		String name = "";
-		for (List__name candidate : share.getList().nameCandidates()) {
-			name = candidate.getValue();
-			break;
-		}
-		return name;
+		return QuerySpec.from(share.getList().nameCandidates())
+			.selectFirstOrNull(new Selector<List__name, String>() {
+				@Override
+				public String select(List__name row) {
+					return row.getValue();
+				}
+			});
 	}
 
 	private void onSelectTask(int position) {

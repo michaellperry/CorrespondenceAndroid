@@ -206,6 +206,14 @@ public class QuerySpec<ROW> {
 		else
 			return null;
 	}
+	
+	public <RESULT> RESULT selectFirstOrNull(final Selector<ROW, RESULT> selector) {
+		Iterator<ROW> iterator = iterable.iterator();
+		if (iterator.hasNext())
+			return selector.select(iterator.next());
+		else
+			return null;
+	}
 
 	public ROW selectOne() {
 		// The iterator must produce only one row.

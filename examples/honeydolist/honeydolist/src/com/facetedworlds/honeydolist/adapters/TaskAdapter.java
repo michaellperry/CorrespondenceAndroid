@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mallardsoft.query.QuerySpec;
+import com.mallardsoft.query.Selector;
 import com.updatecontrols.Dependent;
 import com.updatecontrols.UpdateMethod;
 import com.updatecontrols.android.Update;
@@ -53,12 +55,13 @@ public class TaskAdapter {
 	}
 
 	private String getTaskText() {
-		String text = "";
-		for (Task__text candidate : task.textCandidates()) {
-			text = candidate.getValue();
-			break;
-		}
-		return text;
+		return QuerySpec.from(task.textCandidates())
+			.selectFirstOrNull(new Selector<Task__text, String>() {
+				@Override
+				public String select(Task__text row) {
+					return row.getValue();
+				}
+			});
 	}
 	
 }
