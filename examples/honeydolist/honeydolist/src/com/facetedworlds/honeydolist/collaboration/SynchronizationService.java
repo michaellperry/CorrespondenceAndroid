@@ -22,14 +22,14 @@ public class SynchronizationService {
     private Identity identity;
 
 	public void start(Activity context) throws CorrespondenceException {
-		Community community = new Community(new MemoryStorageStrategy(), new ActivityTaskDispatcher(context))
+		Community community = new Community(new MemoryStorageStrategy(), new ActivityTaskDispatcher())
 			.addAsynchronousCommunicationStrategy(new BinaryHTTPAsynchronousCommunicationStrategy(
 				new HoneyDoHTTPConfigurationProvider()
 			))
 			.addModule(new CorrespondenceModel());
       
 		identity = community.addFact(new Identity("547260202db74f018050e01a6e384112"));
-		community.subscribe(new HoneyDoSubscriptionStrategy(identity, context));
+		community.subscribe(new HoneyDoSubscriptionStrategy(identity));
 		
 		community.beginReceiving();
 	}

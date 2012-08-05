@@ -1,20 +1,20 @@
 package com.facetedworlds.honeydolist;
 
-import android.app.Activity;
+import android.os.Handler;
 
 import com.updatecontrols.correspondence.strategy.TaskDispatcher;
 
 public class ActivityTaskDispatcher implements TaskDispatcher {
 
-	private Activity activity;
+	private Handler handler;
 
-	public ActivityTaskDispatcher(Activity activity) {
-		this.activity = activity;
+	public ActivityTaskDispatcher() {
+		this.handler = new Handler();
 	}
 
 	@Override
 	public void runOnUiThread(Runnable task) {
-		activity.runOnUiThread(task);
+		handler.post(task);
 	}
 
 }

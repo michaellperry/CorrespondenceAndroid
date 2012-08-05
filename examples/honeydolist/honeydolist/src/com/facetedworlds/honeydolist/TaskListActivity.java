@@ -46,7 +46,7 @@ public class TaskListActivity extends Activity {
 				share = sortedShares.get(position);
 				
 				titleTextView = (TextView)findViewById(R.id.list_name);
-				depTitle = Update.whenNecessary(this, new UpdateMethod() {
+				depTitle = Update.whenNecessary(new UpdateMethod() {
 					@Override
 					public void update() {
 						titleTextView.setText(getListName());

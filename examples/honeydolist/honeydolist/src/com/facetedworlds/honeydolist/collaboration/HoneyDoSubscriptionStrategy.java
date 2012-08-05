@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import android.app.Activity;
 
 import com.updatecontrols.Dependent;
-import com.updatecontrols.InvalidatedListener;
 import com.updatecontrols.UpdateMethod;
+import com.updatecontrols.android.Update;
 import com.updatecontrols.correspondence.CorrespondenceFact;
 import com.updatecontrols.correspondence.strategy.SubscriptionStrategy;
 
@@ -20,32 +20,15 @@ public class HoneyDoSubscriptionStrategy implements SubscriptionStrategy {
 	
 	private Dependent depListContents;
 	
-	public HoneyDoSubscriptionStrategy(Identity identity, final Activity context) {
+	public HoneyDoSubscriptionStrategy(Identity identity) {
 		this.identity = identity;
 		
-		depListContents = new Dependent(new UpdateMethod() {
+		depListContents = Update.whenNecessary(new UpdateMethod() {
 			@Override
 			public void update() {
-				context.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						updateListContents();
-					}
-				});
+				updateListContents();
 			}
 		});
-		depListContents.addInalidatedListener(new InvalidatedListener() {
-			@Override
-			public void invalidated() {
-				context.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						depListContents.onGet();
-					}
-				});
-			}
-		});
-		depListContents.onGet();
 	}
 
 	@Override

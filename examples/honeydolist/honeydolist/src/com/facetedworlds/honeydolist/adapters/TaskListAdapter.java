@@ -26,7 +26,7 @@ public class TaskListAdapter extends ArrayAdapter<TaskAdapter> {
 		this.list = list;
 		this.context = context;
 		
-		depListSummaries = Update.whenNecessary(context, new UpdateMethod() {
+		depListSummaries = Update.whenNecessary(new UpdateMethod() {
 			@Override
 			public void update() {
 				updateListSummaries();
