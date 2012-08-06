@@ -693,11 +693,14 @@ public class JavaCodeGenerator extends CodeGeneratorAbstractBase implements Code
                 CompoundIdReference rightReferenceTemp = CompoundIdResolver.resolveToFactMember(verifier, compileSpace, factFile,
                         workFactType, nextFactSet.getRightIdentifier(), aliasMap);
 
+                int joinCount = 0;
+
                 // Create a sequence of left references to process...
                 LinkedList<CompoundIdReference> leftReferenceSequence = new LinkedList<CompoundIdReference>();
                 do {
                     if( leftReferenceTemp.isFactTypeReference() == false ) {
                         leftReferenceSequence.addFirst(leftReferenceTemp);
+                        joinCount++;
                     }
                 } while ((leftReferenceTemp = leftReferenceTemp.getParentReference()) != null);
 
@@ -707,15 +710,16 @@ public class JavaCodeGenerator extends CodeGeneratorAbstractBase implements Code
                     
                     if( rightReferenceTemp.isFactTypeReference() == false ) {
                         rightReferenceSequence.addLast(rightReferenceTemp);
+                        joinCount++;
                     }
                     rightReferenceTemp = rightReferenceTemp.getParentReference();
                 }
 
-
                 for (CompoundIdReference leftReference : leftReferenceSequence) {
+                	joinCount--;
 
                     // Predecssor join
-                    if (nextFactSet.getCondition().getFactClauseCount() == 0) {
+                    if (joinCount > 0 || nextFactSet.getCondition().getFactClauseCount() == 0) {
                         joinClause = String.format(".joinPredecessors( %1$s.ROLE_%2$s )",
                                 idFormatter.formatClassname(leftReference.getFact().getFactType()),
                                 idFormatter.formatIdentifier(leftReference.getFactMember().getIdentifier()));
@@ -760,9 +764,10 @@ public class JavaCodeGenerator extends CodeGeneratorAbstractBase implements Code
                 Iterator<CompoundIdReference> rightReferenceIt = rightReferenceSequence.iterator();
                 while (rightReferenceIt.hasNext()) {
                     rightReference = rightReferenceIt.next();
+                	joinCount--;
 
                     // successor join
-                    if (nextFactSet.getCondition().getFactClauseCount() == 0) {
+                    if (joinCount > 0 || nextFactSet.getCondition().getFactClauseCount() == 0) {
                         joinClause = String.format(".joinSuccessors( %1$s.ROLE_%2$s )",
                                 idFormatter.formatClassname(rightReference.getFact().getFactType()),
                                 idFormatter.formatIdentifier(rightReference.getFactMember().getIdentifier()));
