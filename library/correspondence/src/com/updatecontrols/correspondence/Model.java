@@ -453,14 +453,14 @@ public class Model {
 			// Build up the inverse.
 			inverse.prependInverse(join, conditions);
 			
+			conditions = join.getConditions();
+			
 			// Recursively invert the sub queries.
 			if (conditions != null) {
 				for (Condition condition : conditions) {
 					invertQuery(priorType, condition.getSubQuery(), inverse.copy(), invalidQuery);
 				}
 			}
-			
-			conditions = join.getConditions();
 		}
 		
 		// Record an invalidator for the full inverse.
