@@ -8,8 +8,8 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.updatecontrols.Dependent;
-import com.updatecontrols.UpdateMethod;
 import com.updatecontrols.android.Update;
+import com.updatecontrols.android.UpdateAdapter;
 
 import facetedworlds.honeydo.model.Identity;
 import facetedworlds.honeydo.model.IdentityListShare;
@@ -25,7 +25,7 @@ public class FamilyListAdapter extends ArrayAdapter<String> {
 		super(context, textViewResourceId);
 		this.identity = identity;
 		
-		depListSummaries = Update.whenNecessary(new UpdateMethod() {
+		depListSummaries = Update.whenNecessary(new UpdateAdapter() {
 			@Override
 			public void update() {
 				updateListSummaries();

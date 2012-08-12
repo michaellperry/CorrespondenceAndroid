@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.mallardsoft.query.QuerySpec;
 import com.mallardsoft.query.Selector;
 import com.updatecontrols.Dependent;
-import com.updatecontrols.UpdateMethod;
 import com.updatecontrols.android.Update;
+import com.updatecontrols.android.UpdateAdapter;
 
 import facetedworlds.honeydo.model.Domain;
 import facetedworlds.honeydo.model.Task;
@@ -52,14 +52,14 @@ public class TaskAdapter {
 		taskTextView.setPadding(4, 0, 0, 0);
 		taskItem.addView(taskTextView);
 		
-		depText = Update.whenNecessary(new UpdateMethod() {
+		depText = Update.whenNecessary(new UpdateAdapter() {
 			@Override
 			public void update() {
 				taskTextView.setText(getTaskText());
 			}
 		});
 		
-		depCompleted = Update.whenNecessary(new UpdateMethod() {
+		depCompleted = Update.whenNecessary(new UpdateAdapter() {
 			@Override
 			public void update() {
 				completedCheckBox.setChecked(getTaskCompleted());

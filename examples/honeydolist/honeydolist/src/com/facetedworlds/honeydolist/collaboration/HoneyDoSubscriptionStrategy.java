@@ -2,11 +2,9 @@ package com.facetedworlds.honeydolist.collaboration;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
-
 import com.updatecontrols.Dependent;
-import com.updatecontrols.UpdateMethod;
 import com.updatecontrols.android.Update;
+import com.updatecontrols.android.UpdateAdapter;
 import com.updatecontrols.correspondence.CorrespondenceFact;
 import com.updatecontrols.correspondence.strategy.SubscriptionStrategy;
 
@@ -23,7 +21,7 @@ public class HoneyDoSubscriptionStrategy implements SubscriptionStrategy {
 	public HoneyDoSubscriptionStrategy(Identity identity) {
 		this.identity = identity;
 		
-		depListContents = Update.whenNecessary(new UpdateMethod() {
+		depListContents = Update.whenNecessary(new UpdateAdapter() {
 			@Override
 			public void update() {
 				updateListContents();

@@ -18,8 +18,8 @@ import com.facetedworlds.honeydolist.collaboration.SynchronizationService;
 import com.mallardsoft.query.QuerySpec;
 import com.mallardsoft.query.Selector;
 import com.updatecontrols.Dependent;
-import com.updatecontrols.UpdateMethod;
 import com.updatecontrols.android.Update;
+import com.updatecontrols.android.UpdateAdapter;
 
 import facetedworlds.honeydo.model.IdentityListShare;
 import facetedworlds.honeydo.model.List__name;
@@ -46,7 +46,7 @@ public class TaskListActivity extends Activity {
 				share = sortedShares.get(position);
 				
 				titleTextView = (TextView)findViewById(R.id.list_name);
-				depTitle = Update.whenNecessary(new UpdateMethod() {
+				depTitle = Update.whenNecessary(new UpdateAdapter() {
 					@Override
 					public void update() {
 						titleTextView.setText(getListName());
