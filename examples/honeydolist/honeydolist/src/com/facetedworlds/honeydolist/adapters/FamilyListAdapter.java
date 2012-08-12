@@ -20,6 +20,7 @@ public class FamilyListAdapter extends ArrayAdapter<String> {
 	private Identity identity;
 	
 	private Dependent depListSummaries;
+	private ArrayList<String> listSummaries;
 
 	public FamilyListAdapter(Identity identity, final Activity context, int textViewResourceId) {
 		super(context, textViewResourceId);
@@ -30,12 +31,18 @@ public class FamilyListAdapter extends ArrayAdapter<String> {
 			public void update() {
 				updateListSummaries();
 			}
+			
+			@Override
+			public void assign() {
+				assignListSummaries();
+			}
 		});
 	}
 
 	private void updateListSummaries() {
 		Log.i("FamilyListAdapter", "updateListSummaries");
 		
+		listSummaries = new ArrayList<String>();
 		ArrayList<IdentityListShare> sortedShares = new ArrayList<IdentityListShare>(identity.activeShares());
 		Collections.sort(sortedShares, new IdentityListShareComparator());
 		this.clear();
@@ -45,6 +52,13 @@ public class FamilyListAdapter extends ArrayAdapter<String> {
 				name = candidate.getValue();
 				break;
 			}
+			listSummaries.add(name);
+		}
+	}
+	
+	private void assignListSummaries() {
+		this.clear();
+		for (String name : listSummaries) {
 			this.add(name);
 		}
 	}

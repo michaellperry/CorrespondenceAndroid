@@ -28,9 +28,11 @@ public class TaskAdapter {
 	private Activity context;
 	
 	private Dependent depText;
+	private String taskText;
 	private TextView taskTextView;
 	
 	private Dependent depCompleted;
+	private boolean completed;
 	private CheckBox completedCheckBox;
 	
 	public TaskAdapter(Task task, final Activity context) {
@@ -55,14 +57,24 @@ public class TaskAdapter {
 		depText = Update.whenNecessary(new UpdateAdapter() {
 			@Override
 			public void update() {
-				taskTextView.setText(getTaskText());
+				taskText = getTaskText();
+			}
+			
+			@Override
+			public void assign() {
+				taskTextView.setText(taskText);
 			}
 		});
 		
 		depCompleted = Update.whenNecessary(new UpdateAdapter() {
 			@Override
 			public void update() {
-				completedCheckBox.setChecked(getTaskCompleted());
+				completed = getTaskCompleted();
+			}
+			
+			@Override
+			public void assign() {
+				completedCheckBox.setChecked(completed);
 			}
 		});
 		completedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
