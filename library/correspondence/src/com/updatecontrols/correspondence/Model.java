@@ -186,6 +186,9 @@ public class Model {
 				invariantFactMapsMatch();
 			}
 			
+			// Pump this message to the peers.
+			community.beginSending();
+			
 			return prototype;
 		} catch (CorrespondenceException e) {
 			throw new IllegalStateException("Failed to store correspondence object.", e);
@@ -396,26 +399,29 @@ public class Model {
 		return fact;
 	}
 
+	private static boolean debug = false;
 	private void invariantFactMapsMatch() throws AssertionError {
-		if (factById.size() != factByMemento.size()) {
-			StringBuffer errors = new StringBuffer();
-			if (factById.size() > factByMemento.size()) {
-				for (CorrespondenceFact fact : factById.values()) {
-					if (!QuerySpec.from(factByMemento.values()).where(factEquals(fact)).any()) {
-						errors.append(String.format("  ObjectByMemento does not contain %1s %2s.", fact.getClass().getName(), fact.getId()));
-						errors.append("\n");
+		if (debug) {
+			if (factById.size() != factByMemento.size()) {
+				StringBuffer errors = new StringBuffer();
+				if (factById.size() > factByMemento.size()) {
+					for (CorrespondenceFact fact : factById.values()) {
+						if (!QuerySpec.from(factByMemento.values()).where(factEquals(fact)).any()) {
+							errors.append(String.format("  ObjectByMemento does not contain %1s %2s.", fact.getClass().getName(), fact.getId()));
+							errors.append("\n");
+						}
 					}
 				}
-			}
-			else {
-				for (CorrespondenceFact fact : factByMemento.values()) {
-					if (!QuerySpec.from(factById.values()).where(factEquals(fact)).any()) {
-						errors.append(String.format("  ObjectById does not contain %1s %2s.", fact.getClass().getName(), fact.getId()));
-						errors.append("\n");
+				else {
+					for (CorrespondenceFact fact : factByMemento.values()) {
+						if (!QuerySpec.from(factById.values()).where(factEquals(fact)).any()) {
+							errors.append(String.format("  ObjectById does not contain %1s %2s.", fact.getClass().getName(), fact.getId()));
+							errors.append("\n");
+						}
 					}
 				}
+				throw new AssertionError("ID and memento caches do not match.\n" + errors.toString());
 			}
-			throw new AssertionError("ID and memento caches do not match.\n" + errors.toString());
 		}
 	}
 

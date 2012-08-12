@@ -59,12 +59,12 @@ public class FactTreeSerializer {
         }
     }
 
-    private void addFactType(CorrespondenceFactType factType) {
+    public void addFactType(CorrespondenceFactType factType) {
         if (!factTypes.contains(factType))
             factTypes.add(factType);
     }
 
-    private void addRole(RoleMemento role) {
+    public void addRole(RoleMemento role) {
         if (!roles.contains(role))
             roles.add(role);
     }
@@ -73,7 +73,7 @@ public class FactTreeSerializer {
         return (short)factTypes.indexOf(factType);
     }
 
-    private short getRoleId(RoleMemento role) {
+    public short getRoleId(RoleMemento role) {
         return (short)roles.indexOf(role);
     }
 

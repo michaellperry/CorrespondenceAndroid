@@ -34,6 +34,7 @@ public class BinaryHTTPAsynchronousCommunicationStrategy implements
 	
 	private static final byte ProtocolVersion = 2;
 	private static final byte GetManyRequestToken = 1;
+	protected static final int PostRequestToken = 2;
 	
 	private HTTPConfigurationProvider configurationProvider;
 
@@ -132,11 +133,67 @@ public class BinaryHTTPAsynchronousCommunicationStrategy implements
 	}
 
 	@Override
-	public void beginPost(FactTreeMemento messageBody, UUID clientGuid,
-			List<UnpublishMemento> unpublishedMessages, PostCallback success,
-			ErrorCallback error) {
-		// TODO Auto-generated method stub
-
+	public void beginPost(final FactTreeMemento messageBody, final UUID clientGuid,
+			final List<UnpublishMemento> unpublishedMessages, final PostCallback success,
+			final ErrorCallback error) {
+		queueNextAction(new Runnable() {
+			
+			@Override
+			public void run() {
+				HTTPConfiguration configuration = configurationProvider.getConfiguration();
+				
+				BufferedReader in = null;
+				try {
+					ByteArrayOutputStream out = new ByteArrayOutputStream();
+					DataOutputStream writer = new DataOutputStream(out);
+					
+					writer.writeByte(ProtocolVersion);
+					String domain = configuration.getApiKey();
+					BinaryHelper.writeString(writer, domain);
+					writer.writeByte(PostRequestToken);
+					FactTreeSerializer serializer = new FactTreeSerializer();
+					for (UnpublishMemento unpublishedMessage : unpublishedMessages) {
+						serializer.addFactType(unpublishedMessage.getRole().getDeclaringType());
+						serializer.addRole(unpublishedMessage.getRole());
+					}
+					serializer.serlializeFactTree(messageBody, writer);
+					BinaryHelper.writeString(writer, clientGuid.toString());
+					short unpublishedMessageCount = (short)unpublishedMessages.size();
+					writer.writeShort(unpublishedMessageCount);
+					for (UnpublishMemento unpublishedMessage : unpublishedMessages) {
+						writer.writeLong(unpublishedMessage.getMessageId().getKey());
+						writer.writeLong(serializer.getRoleId(unpublishedMessage.getRole()));
+					}
+					
+					byte[] buffer = out.toByteArray();
+					
+					HttpClient client = new DefaultHttpClient();
+					HttpPost request = new HttpPost(configuration.getEndpoint());
+					request.setEntity(new ByteArrayEntity(buffer));
+					HttpResponse response = client.execute(request);
+					
+					DataInputStream reader = new DataInputStream(response.getEntity().getContent());
+					byte version = reader.readByte();
+					if (version != ProtocolVersion)
+						throw new IllegalStateException("Unknown response version from Post request.");
+					byte responseToken = reader.readByte();
+					if (responseToken != 2)
+						throw new IllegalStateException("Unknown response token from Post request.");
+					success.onSuccess();
+				} catch (Exception e) {
+					error.onError(e);
+				}
+				finally {
+			        if (in != null) {
+			            try {
+			                in.close();
+			            }
+			            catch (IOException e) {
+			            }
+			        }
+				}
+			}
+		});
 	}
 
 	@Override
