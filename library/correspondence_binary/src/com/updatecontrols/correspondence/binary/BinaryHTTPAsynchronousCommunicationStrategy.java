@@ -89,7 +89,7 @@ public class BinaryHTTPAsynchronousCommunicationStrategy implements
 						writer.writeLong(pivot.getTimestamp().getKey());
 					}
 					BinaryHelper.writeString(writer, clientGuid.toString());
-					int timeoutSeconds = 0;
+					int timeoutSeconds = configuration.getTimeoutSeconds();
 					writer.writeInt(timeoutSeconds);
 					
 					byte[] buffer = out.toByteArray();
@@ -210,8 +210,7 @@ public class BinaryHTTPAsynchronousCommunicationStrategy implements
 
 	@Override
 	public boolean isLongPolling() {
-		// TODO Auto-generated method stub
-		return false;
+		return configurationProvider.getConfiguration().getTimeoutSeconds() > 0;
 	}
 
 	@Override
